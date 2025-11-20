@@ -20,12 +20,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-        `;
+        // Title
+        const title = document.createElement("h4");
+        title.textContent = name;
+        activityCard.appendChild(title);
+
+        // Description
+        const desc = document.createElement("p");
+        desc.textContent = details.description;
+        activityCard.appendChild(desc);
+
+        // Schedule
+        const scheduleP = document.createElement("p");
+        scheduleP.innerHTML = `<strong>Schedule:</strong> ${details.schedule}`;
+        activityCard.appendChild(scheduleP);
+
+        // Availability
+        const availP = document.createElement("p");
+        availP.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spots left`;
+        activityCard.appendChild(availP);
+
+        // Participants section
+        const participantsDiv = document.createElement("div");
+        participantsDiv.className = "participants";
+
+        const participantsTitle = document.createElement("h5");
+        participantsTitle.textContent = "Participants";
+        participantsDiv.appendChild(participantsTitle);
+
+        const ul = document.createElement("ul");
+        ul.className = "participant-list";
+
+        if (!Array.isArray(details.participants) || details.participants.length === 0) {
+          const li = document.createElement("li");
+          li.className = "no-participants";
+          li.textContent = "No participants yet.";
+          ul.appendChild(li);
+        } else {
+          details.participants.forEach((p) => {
+            const li = document.createElement("li");
+            li.className = "participant-item";
+
+            const badge = document.createElement("span");
+            badge.className = "participant-badge";
+            // Use first letter of email/name as avatar initial (safe fallback)
+            badge.textContent = (typeof p === "string" && p.length) ? p.trim()[0].toUpperCase() : "?";
+
+            const nameSpan = document.createElement("span");
+            nameSpan.className = "participant-name";
+            nameSpan.textContent = p;
+
+            li.appendChild(badge);
+            li.appendChild(nameSpan);
+            ul.appendChild(li);
+          });
+        }
+
+        participantsDiv.appendChild(ul);
+        activityCard.appendChild(participantsDiv);
 
         activitiesList.appendChild(activityCard);
 
