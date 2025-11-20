@@ -197,6 +197,21 @@ footer {
   word-break: break-word;
 }
 
+.participant-delete {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #c62828;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.participant-delete:hover {
+  background-color: rgba(198, 40, 40, 0.08);
+}
+
 .no-participants {
   color: #666;
   font-style: italic;
